@@ -1,0 +1,37 @@
+[
+    {
+        "city": "Tashkent",
+        "temp": 13.47,
+        "condition": "overcast clouds"
+    },
+    {
+        "city": "Riga",
+        "temp": 8.04,
+        "condition": "broken clouds"
+    },
+    {
+        "city": "Tashkent",
+        "temp": 15.59,
+        "condition": "overcast clouds"
+    },
+    {
+        "city": "Riga",
+        "temp": 11.04,
+        "condition": "clear sky"
+    },
+    {
+        "city": "Samarqand",
+        "temp": 14.4,
+        "condition": "overcast clouds"
+    },
+    {
+        "city": "Tashkent",
+        "temp": 18.57,
+        "condition": "clear sky"
+    },
+    {
+        "city": "Riga",
+        "temp": 10.02,
+        "condition": "clear sky"
+    }
+]
