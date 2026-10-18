@@ -36,7 +36,7 @@ Requires a free [OpenWeatherMap](https://openweathermap.org/api) API key.
 2. Install dependencies and run:
 ```
    cd backend
-   pip install requests python-dotenv
+   pip install -r requirements.txt
    python main.py
 ```
 
