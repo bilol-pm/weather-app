@@ -45,18 +45,35 @@ async function getWeather(latitude, longitude) {
     return data.current
 }
 
+function clearWeather() {
+    document.querySelector(".temp").textContent = "--"
+    document.querySelector(".description").textContent = "--"
+    document.querySelector(".wet_perc").textContent = "--"
+    document.querySelector(".wind_perc").textContent = "--"
+}
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault()
     const city = input.value.trim()
-    const place = await getCoordinates(city)
+    if (!city) return
 
-    if (!place) return
+    const title = document.querySelector(".info_title")
+    clearWeather()
+    title.textContent = "Loading..."
 
-    const weather = await getWeather(place.latitude, place.longitude)
+    try {
+        const place = await getCoordinates(city)
+        if (!place) return
 
-    document.querySelector(".info_title").textContent = place.name
-    document.querySelector(".temp").textContent = `${Math.round(weather.temperature_2m)}°C`
-    document.querySelector(".description").textContent = weatherCodes[weather.weather_code] || "Unknown"
-    document.querySelector(".wet_perc").textContent = `${weather.relative_humidity_2m}%`
-    document.querySelector(".wind_perc").textContent = `${weather.wind_speed_10m} km/h`
+        const weather = await getWeather(place.latitude, place.longitude)
+
+        title.textContent = place.name
+        document.querySelector(".temp").textContent = `${Math.round(weather.temperature_2m)}°C`
+        document.querySelector(".description").textContent = weatherCodes[weather.weather_code] || "Unknown"
+        document.querySelector(".wet_perc").textContent = `${weather.relative_humidity_2m}%`
+        document.querySelector(".wind_perc").textContent = `${weather.wind_speed_10m} km/h`
+    } catch (error) {
+        title.textContent = "Something went wrong"
+        console.error(error)
+    }
 })
