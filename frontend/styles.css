@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f172a;
+    color: #f1f5f9;
+}
+
+.weather_model {
+    width: 100%;
+    max-width: 380px;
+    padding: 24px;
+    background: #1e293b;
+    border-radius: 16px;
+}
+
+.weather_title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.weather_form {
+    display: flex;
+    gap: 8px;
+}
+
+#cityInput {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    font-size: 1rem;
+    color: #f1f5f9;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+}
+
+#cityInput:focus {
+    outline: none;
+    border-color: #38bdf8;
+}
+
+.form_button {
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #0f172a;
+    background: #38bdf8;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.form_button:hover {
+    background: #7dd3fc;
+}
+
+.weather_info {
+    text-align: center;
+    margin: 28px 0;
+}
+
+.info_title {
+    font-size: 1.5rem;
+}
+
+.temp {
+    margin: 8px 0 4px;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.description {
+    color: #94a3b8;
+    text-transform: capitalize;
+}
+
+.extra_info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.wet,
+.wind {
+    padding: 12px;
+    text-align: center;
+    background: #0f172a;
+    border-radius: 12px;
+}
+
+.wet_text,
+.wind_text {
+    font-size: 0.85rem;
+    font-weight: normal;
+    color: #94a3b8;
+}
+
+.wet_perc,
+.wind_perc {
+    margin-top: 4px;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
