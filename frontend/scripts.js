@@ -1,48 +1,19 @@
 const form = document.getElementById("weatherForm")
 const input = document.getElementById("cityInput")
 
-const weatherCodes = {
-    0: "Clear sky",
-    1: "Mainly clear",
-    2: "Partly cloudy",
-    3: "Overcast",
-    45: "Fog",
-    48: "Fog",
-    51: "Light drizzle",
-    53: "Drizzle",
-    55: "Dense drizzle",
-    61: "Light rain",
-    63: "Rain",
-    65: "Heavy rain",
-    71: "Light snow",
-    73: "Snow",
-    75: "Heavy snow",
-    80: "Rain showers",
-    81: "Rain showers",
-    82: "Heavy showers",
-    95: "Thunderstorm",
-    96: "Thunderstorm with hail",
-    99: "Thunderstorm with hail"
-}
-
-async function getCoordinates(city) {
-    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`
+async function getWeather(city) {
+    const url = `http://127.0.0.1:8000/weather?city=${encodeURIComponent(city)}`
     const response = await fetch(url)
-    const data = await response.json()
-
-    if (!data.results) {
+    
+    if (response.status === 404) {
         document.querySelector(".info_title").textContent = "City not found"
         return null
     }
 
-    return data.results[0]
-}
-
-async function getWeather(latitude, longitude) {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code`
-    const response = await fetch(url)
-    const data = await response.json()
-    return data.current
+    if (!response.ok) {
+        throw new Error("Server error")
+    }
+    return await response.json() 
 }
 
 function clearWeather() {
@@ -62,16 +33,14 @@ form.addEventListener("submit", async (event) => {
     title.textContent = "Loading..."
 
     try {
-        const place = await getCoordinates(city)
-        if (!place) return
+        const data = await getWeather(city)
+        if (!data) return
 
-        const weather = await getWeather(place.latitude, place.longitude)
-
-        title.textContent = place.name
-        document.querySelector(".temp").textContent = `${Math.round(weather.temperature_2m)}°C`
-        document.querySelector(".description").textContent = weatherCodes[weather.weather_code] || "Unknown"
-        document.querySelector(".wet_perc").textContent = `${weather.relative_humidity_2m}%`
-        document.querySelector(".wind_perc").textContent = `${weather.wind_speed_10m} km/h`
+        title.textContent = data.name
+        document.querySelector(".temp").textContent = `${Math.round(data.main.temp)}°C`
+        document.querySelector(".description").textContent = data.weather[0].description
+        document.querySelector(".wet_perc").textContent = `${data.main.humidity}%`
+        document.querySelector(".wind_perc").textContent = `${data.wind.speed} m/s`
     } catch (error) {
         title.textContent = "Something went wrong"
         console.error(error)
