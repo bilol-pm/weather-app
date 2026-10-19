@@ -1,55 +1,53 @@
 # Weather App
 
-A weather app built in two parts: a command-line Python app and a web frontend.
+A web weather app. The HTML/CSS/JavaScript frontend talks to a FastAPI backend, which gets the data from OpenWeatherMap. The API key stays on the server and never reaches the browser.
+
+## How it works
+
+Browser -> FastAPI backend (`/weather?city=...`) -> OpenWeatherMap
 
 ## Project structure
 
-- `backend/` - Python command-line app: searches weather by city and saves search history to JSON
-- `frontend/` - web app (HTML, CSS, JavaScript) that shows the weather for any city
+- `backend/` - FastAPI server (`server.py`), weather logic, command-line app
+- `frontend/` - web page (HTML, CSS, JavaScript)
 
-## Features
+## Run locally
 
-### Web app (frontend)
-- Search weather by city name
-- Shows temperature, weather description, humidity, and wind speed
-- Loading state and error handling (city not found, no connection)
-- Data from the free [Open-Meteo](https://open-meteo.com/) API (no API key needed)
+### 1. Backend
 
-### Command-line app (backend)
-- Search weather by city
-- Save search history to JSON
-- Simple command-line interface
+1. Get a free API key at [OpenWeatherMap](https://openweathermap.org/api).
+2. Copy `backend/.env.example` to `backend/.env` and add your key.
+3. Install and start the server:
 
-## How to run
-
-### Web app
-Open `frontend/index.html` in a browser (or use the Live Server extension in VS Code).
-
-### Command-line app
-
-Requires a free [OpenWeatherMap](https://openweathermap.org/api) API key.
-
-1. Create a `backend/.env` file:
 ```
-   WEATHER_API_KEY=your_key_here
-```
-2. Install dependencies and run:
-```
-   cd backend
-   pip install -r requirements.txt
-   python main.py
+cd backend
+pip install -r requirements.txt
+python -m uvicorn server:app --reload
 ```
 
-## Technologies
+API docs: http://127.0.0.1:8000/docs
 
-- Python, JSON
-- HTML, CSS, JavaScript (fetch, async/await)
-- Open-Meteo Geocoding and Forecast APIs (web app)
-- OpenWeatherMap API (command-line app)
+### 2. Frontend
+
+Open `frontend/index.html` with the VS Code Live Server extension. It must run at `http://127.0.0.1:5500`, because the backend allows only this address (CORS).
+
+### Command-line app (optional)
+
+```
+cd backend
+python main.py
+```
+
+## API
+
+`GET /weather?city=Tashkent`
+
+- `200` - weather data as JSON
+- `404` - city not found
 
 ## Roadmap
 
-- [ ] Rebuild the backend as a FastAPI service
-- [ ] Connect the frontend to the FastAPI backend
+- [x] FastAPI backend
+- [x] Frontend connected to the backend
 - [ ] Store search history in SQLite
 - [ ] Deploy online
